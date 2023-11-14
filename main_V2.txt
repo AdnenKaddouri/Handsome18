@@ -18,11 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#define MAX 100
 
-struct Message_NV{
-	int value = 0;
-};
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -45,7 +41,6 @@ struct Message_NV{
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
-uint8_t analog_array [MAX];
 
 I2C_HandleTypeDef hi2c1;
 
@@ -80,6 +75,9 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+	struct {
+		int value;
+	}MessageNerv;
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -118,10 +116,10 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  HAL_ADC_Start(&hadc1);
 	  if(HAL_ADC_PollForConversion(&hadc1,10)==HAL_OK){
-		  int analog_value=HAL_ADC_GetValue(&hadc1);
-		  Message_NV.value = analog_value;
+		  int analog_value = HAL_ADC_GetValue(&hadc1);
+		  MessageNerv.value = analog_value;
 		  char jsonBuffer[100];
-		  printf(jsonBuffer, "{ \"analog\": %d }",  Message_NV.value);
+		  sprintf(jsonBuffer, "{ \"analog\": %d }",MessageNerv.value);
 		  printf("%s\n", jsonBuffer);
 	  }
 	  HAL_ADC_Stop(&hadc1);
