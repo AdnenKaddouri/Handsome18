@@ -115,17 +115,18 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 	  HAL_ADC_Start(&hadc1);
-
 	  if(HAL_ADC_PollForConversion(&hadc1,10)==HAL_OK){
-
+		  int analog_value = 0;
 		  for (int i = 0; i < 100; ++i) {
-			  int analog_value = HAL_ADC_GetValue(&hadc1);
+			  HAL_ADC_Start(&hadc1);
+			  analog_value = HAL_ADC_GetValue(&hadc1);
 			  MessageNerv.value = analog_value;
 			  jsonBuffer[i] = MessageNerv.value;
 		    }
-		  sprintf(jsonBuffer, "{ \"analog\": %d }",MessageNerv.value);
-		  printf("%ls\n",jsonBuffer);
+		  //sprintf(jsonBuffer, "{ \"analog\": %d }",MessageNerv.value);
+		  printf("%ls\n", jsonBuffer);
 	  }
 	  HAL_ADC_Stop(&hadc1);
 	  HAL_Delay(50);
